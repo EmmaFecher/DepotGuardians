@@ -355,7 +355,10 @@ MonoBehaviour:
   waveConfigs:
   - {fileID: 11400000, guid: 4cc9d1b62033eed4a869fabc5a005d3e, type: 2}
   - {fileID: 11400000, guid: 4b8ca3b5754178241a2128038fcbc085, type: 2}
-  timeBetweenWaves: 1.64
+  - {fileID: 11400000, guid: 4b8ca3b5754178241a2128038fcbc085, type: 2}
+  - {fileID: 11400000, guid: 4b8ca3b5754178241a2128038fcbc085, type: 2}
+  - {fileID: 11400000, guid: 4b8ca3b5754178241a2128038fcbc085, type: 2}
+  timeBetweenWaves: 2.93
   spawnedEnemies: []
 --- !u!4 &746866896
 Transform:
