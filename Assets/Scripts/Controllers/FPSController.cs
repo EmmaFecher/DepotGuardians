@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class FPSController : MonoBehaviour
 {
-    [Header("Movement")]
+    [Header("Movements")]
     [SerializeField] private float walkSpeed = 3.0f;
     [SerializeField] private float sprintMultiplier = 2.0f;
 
