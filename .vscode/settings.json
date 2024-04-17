@@ -56,5 +56,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "DepotGuardians.sln"
+    "dotnet.defaultSolution": "DepotGuardians.sln",
+    "dotnet.preferCSharpExtension": true
 }
