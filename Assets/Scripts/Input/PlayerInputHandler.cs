@@ -6,6 +6,11 @@ using UnityEngine.InputSystem;
 
 public class PlayerInputHandler : MonoBehaviour
 {
+    //public bool RunIsPressed { get; private set; } = false;
+    //public bool JumpIsPressed { get; private set; } = false;
+
+
+    public bool InvertMouseY { get; private set; } = true;
     [Header("Input Action Asset")]
     [SerializeField] private InputActionAsset playerControls;
 

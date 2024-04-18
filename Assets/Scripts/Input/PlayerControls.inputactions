@@ -10,7 +10,7 @@
                     "type": "Value",
                     "id": "aeeddaba-f3f8-411d-8502-85e35c172d45",
                     "expectedControlType": "Vector2",
-                    "processors": "",
+                    "processors": "ScaleVector2(x=4,y=4)",
                     "interactions": "",
                     "initialStateCheck": true
                 },
@@ -34,12 +34,12 @@
                 },
                 {
                     "name": "Jump",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "6643eeea-1766-42a3-996f-222d980e277d",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
