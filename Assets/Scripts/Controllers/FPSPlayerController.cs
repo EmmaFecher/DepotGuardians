@@ -1,277 +1,250 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class FPSPlayerController : MonoBehaviour
 {
-    public Transform CameraFollow;
-
-    [SerializeField] PlayerInputHandler _input;
-    Rigidbody _rigidbody = null;
-    CapsuleCollider _capsuleCollider = null;
-
-    [SerializeField] Vector3 _playerMoveInput = Vector3.zero;
-
-    Vector3 _playerLookInput = Vector3.zero;
-    Vector3 _previousPlayerLookInput = Vector3.zero;
-    [SerializeField] float _cameraPitch = 0.0f;
-    [SerializeField] float _playerLookInputLerpTime = 0.35f;
+    [SerializeField] PlayerInputHandler input;
 
     [Header("Movement")]
-    [SerializeField] float _movementMultiplier = 30.0f;
-    [SerializeField] float _notGroundedMovementMultiplier = 1.25f;
-    [SerializeField] float _rotationSpeedMultiplier = 180.0f;
-    [SerializeField] float _pitchSpeedMultiplier = 180.0f;
-    [SerializeField] float _runMultiplier = 2.5f;
+    Rigidbody rb = null;
+    Vector3 playerMoveInput = Vector3.zero;
+    [SerializeField] float movementMultiplier = 30.0f;
+    [SerializeField] float slopeMovementMultiplier = 50.0f;
+    [SerializeField] float runMultiplyer = 2.5f;
+
+    [Header("Camera & Turning")]
+    public Transform CameraFollow;
+    Vector3 playerLookInput = Vector3.zero;
+    Vector3 prevPlayerLookInput = Vector3.zero;
+    [SerializeField] float cameraPitch = 0.0f;
+    [SerializeField] float playerLookInputLerpTime = 0.35f;
+    [SerializeField] float rotationSpeedModifier = 180.0f;
+    [SerializeField] float pitchSpeedModifier = 180.0f;
 
     [Header("Ground Check")]
-    [SerializeField][Range(0.0f, 1.8f)] float _groundCheckRadiusMultiplier = 0.9f;
-    [SerializeField][Range(-0.95f, 1.05f)] float _groundCheckDistanceTolerance = 0.05f;
-    [SerializeField] float _playerCenterToGroundDistance = 0.0f;
-    public bool _playerIsGrounded { get; private set; } = true;
-
-    RaycastHit _groundCheckHit = new RaycastHit();
+    CapsuleCollider capsuleCollider = null;
+    bool isPlayerGrounded = true;
+    [SerializeField][Range(0.0f, 1.8f)] float groundCheckRadiusMultiplier = 0.9f;
+    [SerializeField][Range(-0.95f, 1.05f)] float groundCheckDistance = 0.05f;
+    RaycastHit groundCheckHit = new RaycastHit();
 
     [Header("Gravity")]
-    [SerializeField] float _gravityFallCurrent = 0.0f;
-    [SerializeField] float _gravityFallMin = 0.0f;
-    [SerializeField] float _gravityFallIncrementTime = 0.05f;
-    [SerializeField] float _playerFallTimer = 0.0f;
-    [SerializeField] float _gravityGrounded = -1.0f;
-    [SerializeField] float _maxSlopeAngle = 47.5f;
+    [SerializeField] float gravFallCurrent = -100.0f;
+    [SerializeField] float gravFallMin = -100.0f;
+    [SerializeField] float gravFallMax = -500.0f;
+    [SerializeField][Range(-5.0f, -35.0f)] float gravFallIncrementAmount = -20.0f;
+    [SerializeField] float gravFallIncrementTime = 0.05f;
+    [SerializeField] float playerFallTimer = 0.0f;
+    [SerializeField] float gravityGrounded = -1.0f;
+    [SerializeField] float maxSlopeAngle = 47f;
 
     [Header("Jumping")]
-    [SerializeField] float _initialJumpForceMultiplier = 750.0f;
-    [SerializeField] float _continualJumpForceMultiplier = 0.1f;
-    [SerializeField] float _jumpTime = 0.175f;
-    [SerializeField] float _jumpTimeCounter = 0.0f;
-    [SerializeField] float _coyoteTime = 0.15f;
-    [SerializeField] float _coyoteTimeCounter = 0.0f;
-    [SerializeField] float _jumpBufferTime = 0.2f;
-    [SerializeField] float _jumpBufferTimeCounter = 0.0f; 
-    [SerializeField] bool _jumpWasPressedLastFrame = false;
-    public bool _playerIsJumping { get; private set; } = false; // Modified for animations
+    [SerializeField] float initialJumpForce = 750.0f;
+    [SerializeField] float continualJumpForceMultiplier = 0.1f;
+    [SerializeField] float jumpTime = 0.175f;
+    [SerializeField] float jumpTimeCounter = 0.0f;
+    [SerializeField] float coyoteTime = 0.15f;
+    [SerializeField] float coyoteTimeCounter = 0.0f;
+    [SerializeField] float jumpBufferTime = 0.2f;
+    [SerializeField] float jumpBufferTimeCounter = 0.0f;
+    [SerializeField] bool  playerIsJumping = false;
+    [SerializeField] bool  jumpWasPressedLastFrame = false;
 
-    //mine
-    Vector3 _playerCenterPoint = Vector3.zero;
     private void Awake()
     {
-        _rigidbody = GetComponent<Rigidbody>();
-        _capsuleCollider = GetComponent<CapsuleCollider>();
-
+        //lock the curser
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Confined;
+        //get stuff
+        rb = GetComponent<Rigidbody>();
+        capsuleCollider = GetComponent<CapsuleCollider>();
     }
-
     private void FixedUpdate()
     {
-        _playerLookInput = GetLookInput();
+        playerLookInput = GetLookInput();
         PlayerLook();
         PitchCamera();
-
-
-        _playerMoveInput = GetMoveInput();
-        _playerIsGrounded = PlayerGroundCheck();
-
-        _playerMoveInput = PlayerMove();
-        _playerMoveInput = PlayerSlope();
-        _playerMoveInput = PlayerRun();
-
-
-        _playerMoveInput.y = PlayerFallGravity();
-        _playerMoveInput.y = PlayerJump();
-
-        _rigidbody.AddRelativeForce(_playerMoveInput, ForceMode.Force);
+        
+        playerMoveInput = GetMoveInput();//get input
+        isPlayerGrounded = PlayerGroundCheck();//check for ground
+        playerMoveInput = PlayerMove();//get the movement specifically
+        playerMoveInput = PlayerSlope();//get if it is on/touching a slope
+        playerMoveInput = PlayerRun();//change movement.speed if running
+        playerMoveInput.y = PlayerFallGravity();//apply grav, using ifgrounded
+        playerMoveInput.y = PlayerJump();//get movement up, if jumping
+        playerMoveInput *= rb.mass;
+        rb.AddRelativeForce(playerMoveInput, ForceMode.Force);//apply the movement gotten above
     }
-
+    //rotation
     private Vector3 GetLookInput()
     {
-        _previousPlayerLookInput = _playerLookInput;
-        _playerLookInput = new Vector3(_input.LookInput.x, (_input.InvertMouseY ? -_input.LookInput.y : _input.LookInput.y), 0.0f);
-        return Vector3.Lerp(_previousPlayerLookInput, _playerLookInput * Time.deltaTime, _playerLookInputLerpTime);
+        prevPlayerLookInput = playerLookInput;
+        playerLookInput = new Vector3(input.LookInput.x, -input.LookInput.y, 0.0f);
+        return Vector3.Lerp(prevPlayerLookInput, playerLookInput * Time.deltaTime, playerLookInputLerpTime);
     }
-
     private void PlayerLook()
     {
-        _rigidbody.rotation = Quaternion.Euler(0.0f, _rigidbody.rotation.eulerAngles.y + (_playerLookInput.x * _rotationSpeedMultiplier), 0.0f);
+        rb.rotation = Quaternion.Euler(0.0f, rb.rotation.eulerAngles.y + (playerLookInput.x * rotationSpeedModifier), 0.0f);
     }
-
     private void PitchCamera()
     {
-        _cameraPitch += _playerLookInput.y * _pitchSpeedMultiplier;
-        _cameraPitch = Mathf.Clamp(_cameraPitch, -89.9f, 89.9f);
-
-        CameraFollow.rotation = Quaternion.Euler(_cameraPitch, CameraFollow.rotation.eulerAngles.y, CameraFollow.rotation.eulerAngles.z);
+        Vector3 rotaionValues = CameraFollow.rotation.eulerAngles;
+        cameraPitch += playerLookInput.y * pitchSpeedModifier;
+        cameraPitch = Mathf.Clamp(cameraPitch, -40f, 40f);
+        CameraFollow.rotation = Quaternion.Euler(cameraPitch, rotaionValues.y, rotaionValues.z);
     }
+    //moving
 
     private Vector3 GetMoveInput()
     {
-        return new Vector3(_input.MoveInput.x, 0.0f, _input.MoveInput.y);
+        return new Vector3(input.MoveInput.x, 0.0f, input.MoveInput.y);
     }
 
+    private Vector3 PlayerRun()
+    {
+        Vector3 calculatedPlayerRunSpeed = playerMoveInput;
+        if(input.SprintValue != 0f && input.MoveInput != Vector2.zero)
+        {
+            calculatedPlayerRunSpeed *= runMultiplyer;
+        }
+        return calculatedPlayerRunSpeed;
+    }
     private Vector3 PlayerMove()
     {
-        return ((_playerIsGrounded) ? (_playerMoveInput * _movementMultiplier) : (_playerMoveInput * _movementMultiplier * _notGroundedMovementMultiplier));
+        return new Vector3(playerMoveInput.x * movementMultiplier,
+            playerMoveInput.y,
+            playerMoveInput.z * movementMultiplier);
     }
-
+    //grav and ground check
     private bool PlayerGroundCheck()
     {
-        float sphereCastRadius = _capsuleCollider.radius * _groundCheckRadiusMultiplier;
-        Physics.SphereCast(Vector3.zero, sphereCastRadius, Vector3.down, out _groundCheckHit);
-        _playerCenterToGroundDistance = _groundCheckHit.distance + sphereCastRadius;
-        return ((_playerCenterToGroundDistance >= _capsuleCollider.bounds.extents.y - _groundCheckDistanceTolerance) &&
-                (_playerCenterToGroundDistance <= _capsuleCollider.bounds.extents.y + _groundCheckDistanceTolerance));
+        float sphereCastRadius = capsuleCollider.radius * groundCheckRadiusMultiplier;//radius of player - a little
+        float sphereCastTravelDist = capsuleCollider.bounds.extents.y - sphereCastRadius + groundCheckDistance;//how far to the ground - the sphere/radius
+        return Physics.SphereCast(rb.position, sphereCastRadius, Vector3.down, out groundCheckHit, sphereCastTravelDist);//cast the sphere, return if it hits ground
     }
-
+    private float PlayerFallGravity()
+    {
+        float gravity = playerMoveInput.y;
+        if(isPlayerGrounded)//grounded == grav not needed
+        {
+            gravFallCurrent = gravFallMin;
+        }
+        else
+        {
+            playerFallTimer -= Time.fixedDeltaTime;
+            if(playerFallTimer < 0.0f)
+            {
+                if(gravFallCurrent > gravFallMax)
+                {
+                    gravFallCurrent += gravFallIncrementAmount;
+                }
+                playerFallTimer = gravFallIncrementTime;
+                
+            }
+            gravity = gravFallCurrent;
+        }
+        return gravity;
+    }
     private Vector3 PlayerSlope()
     {
-        Vector3 calculatedPlayerMovement = _playerMoveInput;
-
-        if (_playerIsGrounded)
+        Vector3 calculatedPlayerMovement = playerMoveInput;
+        if (isPlayerGrounded)
         {
-            Vector3 localGroundCheckHitNormal = _rigidbody.transform.InverseTransformDirection(_groundCheckHit.normal);
-
-            float groundSlopeAngle = Vector3.Angle(localGroundCheckHitNormal, _rigidbody.transform.up);
-            if (groundSlopeAngle == 0.0f)
+            Vector3 localGroundCheckHitNormal = rb.transform.InverseTransformDirection(groundCheckHit.normal);
+            float groundSlopeAngle = Vector3.Angle(localGroundCheckHitNormal, rb.transform.up);
+            if(groundSlopeAngle == 0.0f)
             {
-                if (_input.MoveInput != Vector2.zero)
+                if (input.MoveInput != Vector2.zero)
                 {
                     RaycastHit rayHit;
-                    float rayCalculatedRayHeight = _playerCenterPoint.y - _playerCenterToGroundDistance + _groundCheckDistanceTolerance;
-                    Vector3 rayOrigin = new Vector3(_playerCenterPoint.x, rayCalculatedRayHeight, _playerCenterPoint.z);
-                    if (Physics.Raycast(rayOrigin, _rigidbody.transform.TransformDirection(calculatedPlayerMovement), out rayHit, 0.75f))
+                    float rayHeightFromGround = 0.1f;
+                    float rayCalculatedRayHeight = rb.position.y - capsuleCollider.bounds.extents.y + rayHeightFromGround;
+                    Vector3 rayOrigin = new Vector3(rb.position.x, rayCalculatedRayHeight, rb.position.z);
+                    if(Physics.Raycast(rayOrigin, rb.transform.TransformDirection(calculatedPlayerMovement), out rayHit, 0.75f))
                     {
-                        if (Vector3.Angle(rayHit.normal, _rigidbody.transform.up) > _maxSlopeAngle)
+                        if (Vector3.Angle(rayHit.normal, rb.transform.up) > maxSlopeAngle)
                         {
-                            calculatedPlayerMovement.y = -_movementMultiplier;
+                            calculatedPlayerMovement.y = -slopeMovementMultiplier;
                         }
                     }
                 }
-
-                if (calculatedPlayerMovement.y == 0.0f)
+                if(calculatedPlayerMovement.y == 0.0f)
                 {
-                    calculatedPlayerMovement.y = _gravityGrounded;
+                    calculatedPlayerMovement.y = gravityGrounded;
                 }
             }
             else
             {
-                Quaternion slopeAngleRotation = Quaternion.FromToRotation(_rigidbody.transform.up, localGroundCheckHitNormal);
-                calculatedPlayerMovement = slopeAngleRotation * calculatedPlayerMovement;
-
-                float relativeSlopeAngle = Vector3.Angle(calculatedPlayerMovement, _rigidbody.transform.up) - 90.0f;
+                Quaternion slopeAngleRot = Quaternion.FromToRotation(rb.transform.up, localGroundCheckHitNormal);
+                calculatedPlayerMovement = slopeAngleRot * calculatedPlayerMovement;
+                float relativeSlopeAngle = Vector3.Angle(calculatedPlayerMovement, rb.transform.up) - 90.0f;
                 calculatedPlayerMovement += calculatedPlayerMovement * (relativeSlopeAngle / 90.0f);
-
-                if (groundSlopeAngle < _maxSlopeAngle)
+                if (groundSlopeAngle < maxSlopeAngle)
                 {
-                    if (_input.MoveInput != Vector2.zero)
+                    if (input.MoveInput != Vector2.zero)
                     {
-                        calculatedPlayerMovement.y += _gravityGrounded;
+                        calculatedPlayerMovement.y += gravityGrounded;
                     }
                 }
                 else
                 {
-                    float calculatedSlopeGravity = groundSlopeAngle * -0.2f;
-                    if (calculatedSlopeGravity < calculatedPlayerMovement.y)
+                    float calculatedSlopeGrav = groundSlopeAngle * -0.2f;
+                    if(calculatedSlopeGrav < calculatedPlayerMovement.y)
                     {
-                        calculatedPlayerMovement.y = calculatedSlopeGravity;
+                        calculatedPlayerMovement.y = calculatedSlopeGrav;
                     }
                 }
             }
         }
-        return calculatedPlayerMovement;   
+        return calculatedPlayerMovement;
     }
-    private Vector3 PlayerRun()
-    {
-        Vector3 calculatedPlayerRunSpeed = _playerMoveInput;
-        if ((_input.MoveInput != Vector2.zero) && (_input.SprintValue != 0f))
-        {
-            calculatedPlayerRunSpeed *= _runMultiplier;
-        }
-        return calculatedPlayerRunSpeed;
-    }
-    private float PlayerFallGravity()
-    {
-        float gravity = _playerMoveInput.y;
-        if(_playerIsGrounded)
-        {
-            _gravityFallCurrent = _gravityFallMin; // Reset
-        }
-        else
-        {
-            _playerFallTimer -= Time.fixedDeltaTime;
-            if (_playerFallTimer < 0.0f)
-            {
-                float gravityFallMax = _movementMultiplier * _runMultiplier * 5.0f;
-                float gravityFallIncrementAmount = (gravityFallMax - _gravityFallMin) * 0.1f;
-                if (_gravityFallCurrent < gravityFallMax)
-                {
-                    _gravityFallCurrent += gravityFallIncrementAmount;
-                }
-                _playerFallTimer = _gravityFallIncrementTime;
-            }
-            gravity = -_gravityFallCurrent;
-        }
-        return gravity;
-    }
-
+    //Jump stuff
     private float PlayerJump()
     {
-        float calculatedJumpInput = _playerMoveInput.y;
-
+        float calculatedJumpinput = playerMoveInput.y;
         SetJumpTimeCounter();
         SetCoyoteTimeCounter();
         SetJumpBufferTimeCounter();
 
-        if (_jumpBufferTimeCounter > 0.0f && !_playerIsJumping && _coyoteTimeCounter > 0.0f)
+        if(jumpBufferTimeCounter > 0.0f && !playerIsJumping && coyoteTimeCounter > 0.0f)
         {
-            calculatedJumpInput = _initialJumpForceMultiplier;
-            _playerIsJumping = true;
-            _jumpBufferTimeCounter = 0.0f;
-            _coyoteTimeCounter = 0.0f;
+            calculatedJumpinput = initialJumpForce;
+            playerIsJumping = true;
+            jumpBufferTimeCounter = 0.0f;
+            coyoteTimeCounter = 0.0f;
         }
-        else if (_input.JumpTriggered && _playerIsJumping && !_playerIsGrounded && _jumpTimeCounter > 0.0f)
+        else if (input.JumpTriggered && playerIsJumping && !isPlayerGrounded && jumpTimeCounter > 0.0f)
         {
-            calculatedJumpInput = _initialJumpForceMultiplier * _continualJumpForceMultiplier;
+            calculatedJumpinput = initialJumpForce * continualJumpForceMultiplier;
         }
-        else if (_playerIsJumping && _playerIsGrounded)
+        else if (playerIsJumping && isPlayerGrounded)
         {
-            _playerIsJumping = false;
+            playerIsJumping = false;
         }
-        return calculatedJumpInput;
+        return calculatedJumpinput;
     }
-
     private void SetJumpTimeCounter()
     {
-        if (_playerIsJumping && !_playerIsGrounded)
-        {
-            _jumpTimeCounter -= Time.fixedDeltaTime;
-        }
+        if(playerIsJumping && !isPlayerGrounded)
+        {jumpTimeCounter -= Time.fixedDeltaTime;}
         else
-        {
-            _jumpTimeCounter = _jumpTime;
-        }
+        {jumpTimeCounter = jumpTime;}
     }
-
     private void SetCoyoteTimeCounter()
     {
-        if (_playerIsGrounded)
-        {
-            _coyoteTimeCounter = _coyoteTime;
-        }
+        if (isPlayerGrounded)
+        {coyoteTimeCounter = coyoteTime;}
         else
-        {
-            _coyoteTimeCounter -= Time.fixedDeltaTime;
-        }
+        {coyoteTimeCounter -= Time.fixedDeltaTime;}
     }
-
     private void SetJumpBufferTimeCounter()
     {
-        if (!_jumpWasPressedLastFrame && _input.JumpTriggered)
-        {
-            _jumpBufferTimeCounter = _jumpBufferTime;
-        }
-        else if (_jumpBufferTimeCounter > 0.0f)
-        {
-            _jumpBufferTimeCounter -= Time.fixedDeltaTime;
-        }
-        _jumpWasPressedLastFrame = _input.JumpTriggered;
+        if(!jumpWasPressedLastFrame && input.JumpTriggered)
+        {jumpBufferTimeCounter = jumpBufferTime;}
+        else if (jumpBufferTimeCounter > 0.0f)
+        {jumpBufferTimeCounter -= Time.fixedDeltaTime;}
+        jumpWasPressedLastFrame = input.JumpTriggered;
     }
 }
