@@ -53,12 +53,10 @@ public class FPSPlayerController : MonoBehaviour
     [SerializeField] bool  playerIsJumping = false;
     [SerializeField] bool  jumpWasPressedLastFrame = false;
 
-    [Header("Menu stuff")]
-    [SerializeField] GameObject pauseMenu;
-    [SerializeField] GameObject hudMenu;
-
     private void Awake()
     {
+        //start of level
+        input.UnPause();
         //lock the curser
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Confined;
@@ -262,10 +260,7 @@ public class FPSPlayerController : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Escape))
         {
-            Time.timeScale = 0;
             input.Pause();
-            hudMenu.SetActive(false);
-            pauseMenu.SetActive(true);
         }
     }
 

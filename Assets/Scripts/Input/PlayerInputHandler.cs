@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -19,6 +16,10 @@ public class PlayerInputHandler : MonoBehaviour
     [SerializeField] private string jump = "Jump";
     [SerializeField] private string sprint = "Sprint";
     [SerializeField] private string pause = "Pause";
+        
+    [Header("Menu stuff")]
+    [SerializeField] GameObject pauseMenu;
+    [SerializeField] GameObject hudMenu;
 
     private InputAction moveAction;
     private InputAction lookAction;
@@ -35,6 +36,7 @@ public class PlayerInputHandler : MonoBehaviour
     public static PlayerInputHandler Instance { get; private set; }
     private void Awake()
     {
+        
         if (Instance == null)
         {
             Instance = this;
@@ -92,9 +94,15 @@ public class PlayerInputHandler : MonoBehaviour
     public void Pause()
     {
         OnDisable();
+        hudMenu.SetActive(false);
+        pauseMenu.SetActive(true);
+        Time.timeScale = 0f;
     }
     public void UnPause()
     {
         OnEnable();
+        hudMenu.SetActive(true);
+        pauseMenu.SetActive(false);
+        Time.timeScale = 1.0f;
     }
 }
