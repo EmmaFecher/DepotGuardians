@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class FPSPlayerController : MonoBehaviour
@@ -15,7 +16,7 @@ public class FPSPlayerController : MonoBehaviour
     [SerializeField] float runMultiplyer = 2.5f;
 
     [Header("Camera & Turning")]
-    public Transform CameraFollow;
+    public Transform cameraFollow;
     Vector3 playerLookInput = Vector3.zero;
     Vector3 prevPlayerLookInput = Vector3.zero;
     [SerializeField] float cameraPitch = 0.0f;
@@ -52,6 +53,10 @@ public class FPSPlayerController : MonoBehaviour
     [SerializeField] bool  playerIsJumping = false;
     [SerializeField] bool  jumpWasPressedLastFrame = false;
 
+    [Header("Menu stuff")]
+    [SerializeField] GameObject pauseMenu;
+    [SerializeField] GameObject hudMenu;
+
     private void Awake()
     {
         //lock the curser
@@ -61,8 +66,13 @@ public class FPSPlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         capsuleCollider = GetComponent<CapsuleCollider>();
     }
+    private void Update()
+    {
+        CheckForEscape();
+    }
     private void FixedUpdate()
     {
+
         playerLookInput = GetLookInput();
         PlayerLook();
         PitchCamera();
@@ -90,10 +100,10 @@ public class FPSPlayerController : MonoBehaviour
     }
     private void PitchCamera()
     {
-        Vector3 rotaionValues = CameraFollow.rotation.eulerAngles;
+        Vector3 rotaionValues = cameraFollow.rotation.eulerAngles;
         cameraPitch += playerLookInput.y * pitchSpeedModifier;
         cameraPitch = Mathf.Clamp(cameraPitch, -40f, 40f);
-        CameraFollow.rotation = Quaternion.Euler(cameraPitch, rotaionValues.y, rotaionValues.z);
+        cameraFollow.rotation = Quaternion.Euler(cameraPitch, rotaionValues.y, rotaionValues.z);
     }
     //moving
 
@@ -247,4 +257,16 @@ public class FPSPlayerController : MonoBehaviour
         {jumpBufferTimeCounter -= Time.fixedDeltaTime;}
         jumpWasPressedLastFrame = input.JumpTriggered;
     }
+
+    private void CheckForEscape()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Time.timeScale = 0;
+            input.Pause();
+            hudMenu.SetActive(false);
+            pauseMenu.SetActive(true);
+        }
+    }
+
 }

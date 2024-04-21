@@ -6,10 +6,6 @@ using UnityEngine.InputSystem;
 
 public class PlayerInputHandler : MonoBehaviour
 {
-    //public bool RunIsPressed { get; private set; } = false;
-    //public bool JumpIsPressed { get; private set; } = false;
-
-
     public bool InvertMouseY { get; private set; } = true;
     [Header("Input Action Asset")]
     [SerializeField] private InputActionAsset playerControls;
@@ -22,16 +18,19 @@ public class PlayerInputHandler : MonoBehaviour
     [SerializeField] private string look = "Look";
     [SerializeField] private string jump = "Jump";
     [SerializeField] private string sprint = "Sprint";
+    [SerializeField] private string pause = "Pause";
 
     private InputAction moveAction;
     private InputAction lookAction;
     private InputAction jumpAction;
     private InputAction sprintAction;
+    private InputAction pauseAction;
 
     public Vector2 MoveInput { get; private set; }
     public Vector2 LookInput { get; private set; }
     public bool JumpTriggered { get; private set; }
     public float SprintValue { get; private set; }
+    public bool PauseTriggered{get; private set; }
 
     public static PlayerInputHandler Instance { get; private set; }
     private void Awake()
@@ -49,6 +48,7 @@ public class PlayerInputHandler : MonoBehaviour
         lookAction = playerControls.FindActionMap(actionMapName).FindAction(look);
         jumpAction = playerControls.FindActionMap(actionMapName).FindAction(jump);
         sprintAction = playerControls.FindActionMap(actionMapName).FindAction(sprint);
+        pauseAction = playerControls.FindActionMap(actionMapName).FindAction(pause);
 
         RegisterInputActions();
     }
@@ -67,6 +67,9 @@ public class PlayerInputHandler : MonoBehaviour
         sprintAction.performed += context => SprintValue = context.ReadValue<float>();
         sprintAction.canceled += context => SprintValue = 0f;
 
+        pauseAction.performed += context => PauseTriggered = true;
+        pauseAction.canceled += context => PauseTriggered = false;
+
     }
 
     private void OnEnable()
@@ -75,6 +78,7 @@ public class PlayerInputHandler : MonoBehaviour
         lookAction.Enable();
         jumpAction.Enable();
         sprintAction.Enable();
+        pauseAction.Enable();
     }
     private void OnDisable()
     {
@@ -82,5 +86,15 @@ public class PlayerInputHandler : MonoBehaviour
         lookAction.Disable();
         jumpAction.Disable();
         sprintAction.Disable();
+        pauseAction.Disable();
+    }
+
+    public void Pause()
+    {
+        OnDisable();
+    }
+    public void UnPause()
+    {
+        OnEnable();
     }
 }
