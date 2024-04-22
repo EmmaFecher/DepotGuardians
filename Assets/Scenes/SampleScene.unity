@@ -1252,12 +1252,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6106165531124926059, guid: 18d02288146ff3b43b9fdcffd674ef97, type: 3}
       propertyPath: bulletSpeed
-      value: 25
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 6106165531124926059, guid: 18d02288146ff3b43b9fdcffd674ef97, type: 3}
       propertyPath: enemySpawner
       value: 
       objectReference: {fileID: 746866894}
+    - target: {fileID: 6106165531124926059, guid: 18d02288146ff3b43b9fdcffd674ef97, type: 3}
+      propertyPath: shootingDelay
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

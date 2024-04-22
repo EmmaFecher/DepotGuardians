@@ -48,6 +48,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 5379903843324668527, guid: 033e3199ba1720841823f8909a84e279, type: 3}
   enemySpawner: {fileID: 4168147798995266227, guid: 8b19c497b974d8d49abb0462c69294c4, type: 3}
   ballJoint: {fileID: 6584188118887685107}
+  placeToShootFrom: {fileID: 7240482300798751721}
   range: 50
   yRange: 50
   bulletSpeed: 10000
@@ -192,7 +193,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0.686}
   m_LocalScale: {x: 0.25, y: 0.22, z: 1.2}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 7240482300798751721}
   m_Father: {fileID: 6584188118887685107}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7581194023040625354
@@ -266,6 +268,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &6616971238146233401
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7240482300798751721}
+  m_Layer: 0
+  m_Name: PlaceToShoot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7240482300798751721
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6616971238146233401}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.558}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2436496456627413817}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8346050671779893122
 GameObject:
   m_ObjectHideFlags: 0

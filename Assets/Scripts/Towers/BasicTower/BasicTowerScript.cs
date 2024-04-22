@@ -7,6 +7,7 @@ public class BasicTowerScript : MonoBehaviour
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] GameObject enemySpawner;
     public Transform ballJoint;
+    public Transform placeToShootFrom;
     [SerializeField] float range;
     [SerializeField] float yRange;
     public float bulletSpeed = 10f;
@@ -94,7 +95,7 @@ public class BasicTowerScript : MonoBehaviour
     }
     void ShootAtEnemy(Transform enemyTransform)
     {
-        GameObject bullet = Instantiate(bulletPrefab, ballJoint.transform.position, Quaternion.identity);
+        GameObject bullet = Instantiate(bulletPrefab, placeToShootFrom.transform.position, Quaternion.identity);
         Quaternion gunRotation = ballJoint.rotation;
         Vector3 direction = gunRotation * Vector3.forward;
         Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
