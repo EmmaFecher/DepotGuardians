@@ -50,9 +50,9 @@ MonoBehaviour:
   ballJoint: {fileID: 6584188118887685107}
   range: 50
   yRange: 50
-  bulletSpeed: 10
+  bulletSpeed: 10000
   enemiesInRange: []
-  shootingDelay: 2.12
+  shootingDelay: 1.5
 --- !u!1 &3871476344509957619
 GameObject:
   m_ObjectHideFlags: 0

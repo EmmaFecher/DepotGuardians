@@ -44,7 +44,6 @@ public class BasicTowerScript : MonoBehaviour
             enemy = FindEnemy();
         }
     }
-
     private GameObject FindEnemy()
     {
         if(enemiesInRange.Count == 0)
@@ -77,7 +76,6 @@ public class BasicTowerScript : MonoBehaviour
         Quaternion newRotation = Quaternion.Euler(clampedX, lookRotation.eulerAngles.y, originalZ);
         // Apply the new rotation to the gun's transform
         ballJoint.rotation = newRotation;
-
     }
     void ShootCoroutine()
     {
@@ -102,7 +100,6 @@ public class BasicTowerScript : MonoBehaviour
         Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
         bulletRb.velocity = direction * bulletSpeed;
     }
-
     void AddEnemiesToRange()
     {
         List<GameObject> list = enemySpawner.gameObject.GetComponent<EnemySpawner>().spawnedEnemies;

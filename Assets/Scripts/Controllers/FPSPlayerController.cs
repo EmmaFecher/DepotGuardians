@@ -70,21 +70,21 @@ public class FPSPlayerController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-
         playerLookInput = GetLookInput();
         PlayerLook();
         PitchCamera();
-        
-        playerMoveInput = GetMoveInput();//get input
-        isPlayerGrounded = PlayerGroundCheck();//check for ground
-        playerMoveInput = PlayerMove();//get the movement specifically
-        playerMoveInput = PlayerSlope();//get if it is on/touching a slope
-        playerMoveInput = PlayerRun();//change movement.speed if running
-        playerMoveInput.y = PlayerFallGravity();//apply grav, using ifgrounded
-        playerMoveInput.y = PlayerJump();//get movement up, if jumping
+
+        playerMoveInput = GetMoveInput();//get input, basic walking directions
+        isPlayerGrounded = PlayerGroundCheck();//get the IfGrounded bool
+        playerMoveInput = PlayerMove();//Apply the movement to the basic walking directions
+        playerMoveInput = PlayerSlope();//modify movement if on a slope
+        playerMoveInput = PlayerRun();//multiply movementSpeed if running
+        playerMoveInput.y = PlayerFallGravity();//apply grav, uses ifgrounded bool
+        playerMoveInput.y = PlayerJump();//set up input to have some jump
         playerMoveInput *= rb.mass;
         rb.AddRelativeForce(playerMoveInput, ForceMode.Force);//apply the movement gotten above
     }
+    
     //rotation
     private Vector3 GetLookInput()
     {
@@ -103,13 +103,12 @@ public class FPSPlayerController : MonoBehaviour
         cameraPitch = Mathf.Clamp(cameraPitch, -40f, 40f);
         cameraFollow.rotation = Quaternion.Euler(cameraPitch, rotaionValues.y, rotaionValues.z);
     }
-    //moving
 
+    //moving
     private Vector3 GetMoveInput()
     {
         return new Vector3(input.MoveInput.x, 0.0f, input.MoveInput.y);
     }
-
     private Vector3 PlayerRun()
     {
         Vector3 calculatedPlayerRunSpeed = playerMoveInput;
@@ -125,6 +124,7 @@ public class FPSPlayerController : MonoBehaviour
             playerMoveInput.y,
             playerMoveInput.z * movementMultiplier);
     }
+    
     //grav and ground check
     private bool PlayerGroundCheck()
     {
@@ -208,6 +208,7 @@ public class FPSPlayerController : MonoBehaviour
         }
         return calculatedPlayerMovement;
     }
+    
     //Jump stuff
     private float PlayerJump()
     {
@@ -256,12 +257,10 @@ public class FPSPlayerController : MonoBehaviour
         jumpWasPressedLastFrame = input.JumpTriggered;
     }
 
+    //Kind of misc stuff
     private void CheckForEscape()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
-        {
+        if(input.PauseTriggered)
             input.Pause();
-        }
     }
-
 }
