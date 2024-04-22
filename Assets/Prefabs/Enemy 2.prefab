@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2313413701902764592}
   - component: {fileID: 8961057992545624525}
   - component: {fileID: -2444398878184863377}
+  - component: {fileID: 7083545258403273106}
   m_Layer: 0
   m_Name: Enemy 2
   m_TagString: Enemy
@@ -165,6 +166,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health: 10
   CoinsToDrop: 5
+--- !u!114 &7083545258403273106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1639568139377208422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ed37eefe905dbd4e95957009250798d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Damage: 5
 --- !u!1 &5141559973201058966
 GameObject:
   m_ObjectHideFlags: 0
