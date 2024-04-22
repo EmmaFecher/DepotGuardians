@@ -1,8 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HUDMenuScript : MonoBehaviour
 {
-    //a thing for turning on the placeATower thing.
+    [SerializeField] TextMeshProUGUI CoinsTxt;
+    [SerializeField] TextMeshProUGUI HealthTxt;
+    BaseScripts baseScript;
+    private void Awake() 
+    {
+        baseScript = GameObject.FindGameObjectWithTag("Base").GetComponent<BaseScripts>();
+    }
+    private void Update() 
+    {
+        CoinsTxt.text = "Coins: " + baseScript.GetCoins().ToString();
+        HealthTxt.text = "Health: " + baseScript.GetHealth().ToString();
+    }
+    /*
+    reference the txt for coins/health
+    reference the base with the Get-coins/health
+    Update will keep checking and updating
+    */
 }
