@@ -12,7 +12,7 @@ public class BaseScripts : MonoBehaviour
         if(Health <= 0)
         {
             Debug.Log("Base dead, LOOOSE");
-            input.GameDone();
+            input.GameDone(false);
         }
     }
     public void SetCoins(int amountToAdd)

@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -21,6 +22,8 @@ public class PlayerInputHandler : MonoBehaviour
     [SerializeField] GameObject pauseMenu;
     [SerializeField] GameObject hudMenu;
     [SerializeField] GameObject gameDoneMenu;
+    [SerializeField] TextMeshProUGUI winTxt;
+    [SerializeField] TextMeshProUGUI looseTxt;
 
     private InputAction moveAction;
     private InputAction lookAction;
@@ -119,12 +122,23 @@ public class PlayerInputHandler : MonoBehaviour
         gameDoneMenu.SetActive(false);
         Time.timeScale = 1.0f;
     }
-    public void GameDone()
+    public void GameDone(bool hasWon)
     {
         OnDisable();
         UnlockCurser();
         Time.timeScale = 0f;
-        Debug.Log("Game is over,maybe win, maybe loose");
+        
+        if(hasWon)
+        {
+            winTxt.gameObject.SetActive(true);
+            looseTxt.gameObject.SetActive(false);
+        }
+        else
+        {
+            looseTxt.gameObject.SetActive(true);
+            winTxt.gameObject.SetActive(false);
+        }
+
         hudMenu.SetActive(false);
         pauseMenu.SetActive(false);
         gameDoneMenu.SetActive(true);

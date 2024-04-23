@@ -44,7 +44,7 @@ public class EnemySpawner : MonoBehaviour
             //last wave, and enemies dead
             //Do something like level over
             Debug.Log("Enemies gone, WIN");
-            input.GameDone();
+            input.GameDone(true);
         }
     }
     public WaveConfigSO GetCurrentWave()
