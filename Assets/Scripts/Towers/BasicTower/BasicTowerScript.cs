@@ -10,12 +10,12 @@ public class BasicTowerScript : MonoBehaviour
     public Transform placeToShootFrom;
     [SerializeField] float range;
     [SerializeField] float yRange;
+    [SerializeField] float shootingDelay;
     public float bulletSpeed = 10f;
     GameObject enemy = null;
     float maxLookUpAngle = 60f;
     float maxLookDownAngle = 30f;
     [SerializeField] List<GameObject> enemiesInRange;
-    [SerializeField] float shootingDelay;
     private void Update()
     {
         CheckIfEnemiesDestroyed();
@@ -27,22 +27,18 @@ public class BasicTowerScript : MonoBehaviour
         {
             if (!IsInvoking("ShootCoroutine"))
             {
-                InvokeRepeating("ShootCoroutine", 0f, shootingDelay);
+                InvokeRepeating("ShootCoroutine", shootingDelay, shootingDelay);
             }
+            KeepPositionZero();
+            RotateToEnemy();
+            enemy = FindEnemy();
         }
-        else
+        else//enemy is null
         {
-            // If there is no enemy in sight, stop the shooting coroutine
             if (IsInvoking("ShootCoroutine"))
             {
                 CancelInvoke("ShootCoroutine");
             }
-        }
-        if (enemy != null)
-        {
-            KeepPositionZero();
-            RotateToEnemy();
-            enemy = FindEnemy();
         }
     }
     private GameObject FindEnemy()
