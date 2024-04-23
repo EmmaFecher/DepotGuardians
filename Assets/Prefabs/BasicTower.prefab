@@ -52,9 +52,9 @@ MonoBehaviour:
   placeToShootFrom: {fileID: 7240482300798751721}
   range: 15
   yRange: 50
+  shootingDelay: 3
   bulletSpeed: 300
   enemiesInRange: []
-  shootingDelay: 10
 --- !u!1 &3551161172613200022
 GameObject:
   m_ObjectHideFlags: 0
