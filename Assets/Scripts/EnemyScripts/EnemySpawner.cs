@@ -8,6 +8,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] float timeBetweenWaves = 0f;
     WaveConfigSO currentWave;
     public List<GameObject> spawnedEnemies = new List<GameObject>();
+    [SerializeField] private PlayerInputHandler input;
 
     void Start()
     {
@@ -42,6 +43,8 @@ public class EnemySpawner : MonoBehaviour
             }
             //last wave, and enemies dead
             //Do something like level over
+            Debug.Log("Enemies gone, WIN");
+            input.GameDone();
         }
     }
     public WaveConfigSO GetCurrentWave()

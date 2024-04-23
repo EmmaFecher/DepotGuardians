@@ -20,6 +20,7 @@ public class PlayerInputHandler : MonoBehaviour
     [Header("Menu stuff")]
     [SerializeField] GameObject pauseMenu;
     [SerializeField] GameObject hudMenu;
+    [SerializeField] GameObject gameDoneMenu;
 
     private InputAction moveAction;
     private InputAction lookAction;
@@ -54,7 +55,6 @@ public class PlayerInputHandler : MonoBehaviour
 
         RegisterInputActions();
     }
-
     private void RegisterInputActions()
     {
         moveAction.performed += context => MoveInput = context.ReadValue<Vector2>();
@@ -91,18 +91,43 @@ public class PlayerInputHandler : MonoBehaviour
         pauseAction.Disable();
     }
 
+    public void LockCurser()
+    {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Confined;
+    }
+    public void UnlockCurser()
+    {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+    }
     public void Pause()
     {
+        UnlockCurser();
         OnDisable();
         hudMenu.SetActive(false);
         pauseMenu.SetActive(true);
+        gameDoneMenu.SetActive(false);
         Time.timeScale = 0f;
     }
     public void UnPause()
     {
+        LockCurser();
         OnEnable();
         hudMenu.SetActive(true);
         pauseMenu.SetActive(false);
+        gameDoneMenu.SetActive(false);
         Time.timeScale = 1.0f;
+    }
+    public void GameDone()
+    {
+        OnDisable();
+        UnlockCurser();
+        Time.timeScale = 0f;
+        Debug.Log("Game is over,maybe win, maybe loose");
+        hudMenu.SetActive(false);
+        pauseMenu.SetActive(false);
+        gameDoneMenu.SetActive(true);
+        //Game done menu on
     }
 }

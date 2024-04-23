@@ -57,9 +57,7 @@ public class FPSPlayerController : MonoBehaviour
     {
         //start of level
         input.UnPause();
-        //lock the curser
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Confined;
+        input.LockCurser();
         //get stuff
         rb = GetComponent<Rigidbody>();
         capsuleCollider = GetComponent<CapsuleCollider>();

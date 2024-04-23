@@ -53,7 +53,7 @@ MonoBehaviour:
   yRange: 50
   bulletSpeed: 300
   enemiesInRange: []
-  shootingDelay: 1
+  shootingDelay: 3
 --- !u!1 &3871476344509957619
 GameObject:
   m_ObjectHideFlags: 0

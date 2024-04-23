@@ -6,12 +6,13 @@ public class BaseScripts : MonoBehaviour
 {
     [SerializeField] private int Coins;
     [SerializeField] private int Health;
+    [SerializeField] private PlayerInputHandler input;
     private void Update() 
     {
         if(Health <= 0)
         {
-            //WIP - trigger a lose
-            Destroy(gameObject);
+            Debug.Log("Base dead, LOOOSE");
+            input.GameDone();
         }
     }
     public void SetCoins(int amountToAdd)
