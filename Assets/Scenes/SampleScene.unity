@@ -700,7 +700,7 @@ MonoBehaviour:
   gravFallIncrementTime: 0.05
   playerFallTimer: 0
   gravityGrounded: -1
-  maxSlopeAngle: 47
+  maxSlopeAngle: 40
   initialJumpForce: 750
   continualJumpForceMultiplier: 0.1
   jumpTime: 0.175
