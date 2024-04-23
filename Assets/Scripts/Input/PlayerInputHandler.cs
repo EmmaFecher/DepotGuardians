@@ -142,6 +142,5 @@ public class PlayerInputHandler : MonoBehaviour
         hudMenu.SetActive(false);
         pauseMenu.SetActive(false);
         gameDoneMenu.SetActive(true);
-        //Game done menu on
     }
 }

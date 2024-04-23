@@ -1687,6 +1687,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6106165531124926059, guid: 18d02288146ff3b43b9fdcffd674ef97, type: 3}
+      propertyPath: range
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6106165531124926059, guid: 18d02288146ff3b43b9fdcffd674ef97, type: 3}
       propertyPath: enemySpawner
       value: 
       objectReference: {fileID: 746866894}
@@ -1703,11 +1707,11 @@ SceneRoots:
   - {fileID: 97154430}
   - {fileID: 4170147973114487227}
   - {fileID: 502226665}
-  - {fileID: 1894565800281810877}
   - {fileID: 265477304}
   - {fileID: 9019233512379542548}
-  - {fileID: 2321817484419101864}
   - {fileID: 864419798}
   - {fileID: 1566735139}
   - {fileID: 420637830}
   - {fileID: 1976859824}
+  - {fileID: 1894565800281810877}
+  - {fileID: 2321817484419101864}
