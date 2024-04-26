@@ -263,7 +263,7 @@ public class FPSPlayerController : MonoBehaviour
             input.Pause();
     }
     private void CheckForSpace(){
-        if(Input.GetKeyDown(KeyCode.Space) && input.CheckIfBuildScreenOptionIsActive())
+        if(Input.GetKeyDown(KeyCode.E) && input.CheckIfBuildScreenOptionIsActive())
         {
             input.OpenTowerSelection();
         }

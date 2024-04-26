@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SpawningTowersScript : MonoBehaviour
@@ -19,17 +17,12 @@ public class SpawningTowersScript : MonoBehaviour
             input.CloseOptionForBuildingScreen(gameObject);
         }
     }
-    
     bool CheckIfPlayerCanBuild()
     {
-        if (Vector3.Distance(playerObject.transform.position, transform.position) < 3)
+        if (Vector3.Distance(playerObject.transform.position, transform.position) < 4)
         {
             return true;
         }
        return false; 
-    }
-    public GameObject GetThisTower()
-    {
-        return gameObject;
     }
 }

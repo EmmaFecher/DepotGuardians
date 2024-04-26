@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 5379903843324668527, guid: 033e3199ba1720841823f8909a84e279, type: 3}
-  enemySpawner: {fileID: 0}
+  enemySpawner: {fileID: 4168147798995266227, guid: 8b19c497b974d8d49abb0462c69294c4, type: 3}
   ballJoint: {fileID: 6584188118887685107}
   placeToShootFrom: {fileID: 7240482300798751721}
   range: 15

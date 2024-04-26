@@ -1,5 +1,4 @@
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -159,8 +158,11 @@ public class PlayerInputHandler : MonoBehaviour
         pauseMenu.SetActive(true);
         gameDoneMenu.SetActive(false);
         optionForTowerBuildingMenu.SetActive(false);
-        towerBuildSelectionMenu.GetComponent<TowerBuildingUI>().SetTower(currentPlatform);
         towerBuildSelectionMenu.SetActive(true);
+    }
+    public void GetCurrentPlatform()
+    {
+        towerBuildSelectionMenu.GetComponent<TowerBuildingUI>().SetTower(currentPlatform);
     }
     public bool CheckIfBuildScreenOptionIsActive(){
         return optionForTowerBuildingMenu;
