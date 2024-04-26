@@ -65,6 +65,7 @@ public class FPSPlayerController : MonoBehaviour
     private void Update()
     {
         CheckForEscape();
+        CheckForSpace();
     }
     private void FixedUpdate()
     {
@@ -260,5 +261,11 @@ public class FPSPlayerController : MonoBehaviour
     {
         if(input.PauseTriggered)
             input.Pause();
+    }
+    private void CheckForSpace(){
+        if(Input.GetKeyDown(KeyCode.Space) && input.CheckIfBuildScreenOptionIsActive())
+        {
+            input.OpenTowerSelection();
+        }
     }
 }

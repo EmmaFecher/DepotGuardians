@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3502347746063901}
   m_Layer: 0
   m_Name: EnemySpawner
-  m_TagString: Untagged
+  m_TagString: EnemySpawner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -52,3 +52,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4b8ca3b5754178241a2128038fcbc085, type: 2}
   timeBetweenWaves: 3.23
   spawnedEnemies: []
+  input: {fileID: 0}

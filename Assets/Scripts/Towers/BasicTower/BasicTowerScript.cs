@@ -16,6 +16,12 @@ public class BasicTowerScript : MonoBehaviour
     float maxLookUpAngle = 60f;
     float maxLookDownAngle = 30f;
     [SerializeField] List<GameObject> enemiesInRange;
+    private void Awake() 
+    {
+        if(enemySpawner == null){
+            enemySpawner = GameObject.FindGameObjectWithTag("EnemySpawner");
+        }
+    }
     private void Update()
     {
         CheckIfEnemiesDestroyed();
@@ -76,10 +82,8 @@ public class BasicTowerScript : MonoBehaviour
     }
     void ShootCoroutine()
     {
-        // Implement your shooting logic here
-        Debug.Log("Shooting...");
         ShootAtEnemy(enemy.transform);
-        // You can stop shooting if the tower no longer has an enemy in sight
+        // Stop shooting if the tower no longer has an enemy in sight
         if (enemy == null)
         {
             CancelInvoke("ShootCoroutine");

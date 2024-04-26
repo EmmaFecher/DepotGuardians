@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -22,8 +23,11 @@ public class PlayerInputHandler : MonoBehaviour
     [SerializeField] GameObject pauseMenu;
     [SerializeField] GameObject hudMenu;
     [SerializeField] GameObject gameDoneMenu;
+    [SerializeField] GameObject optionForTowerBuildingMenu;
+    [SerializeField] GameObject towerBuildSelectionMenu;
     [SerializeField] TextMeshProUGUI winTxt;
     [SerializeField] TextMeshProUGUI looseTxt;
+    GameObject currentPlatform;
 
     private InputAction moveAction;
     private InputAction lookAction;
@@ -40,7 +44,6 @@ public class PlayerInputHandler : MonoBehaviour
     public static PlayerInputHandler Instance { get; private set; }
     private void Awake()
     {
-        
         if (Instance == null)
         {
             Instance = this;
@@ -55,7 +58,6 @@ public class PlayerInputHandler : MonoBehaviour
         jumpAction = playerControls.FindActionMap(actionMapName).FindAction(jump);
         sprintAction = playerControls.FindActionMap(actionMapName).FindAction(sprint);
         pauseAction = playerControls.FindActionMap(actionMapName).FindAction(pause);
-
         RegisterInputActions();
     }
     private void RegisterInputActions()
@@ -74,7 +76,6 @@ public class PlayerInputHandler : MonoBehaviour
 
         pauseAction.performed += context => PauseTriggered = true;
         pauseAction.canceled += context => PauseTriggered = false;
-
     }
 
     private void OnEnable()
@@ -104,14 +105,16 @@ public class PlayerInputHandler : MonoBehaviour
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
     }
+    
     public void Pause()
     {
+        Time.timeScale = 0f;
         UnlockCurser();
         OnDisable();
         hudMenu.SetActive(false);
         pauseMenu.SetActive(true);
         gameDoneMenu.SetActive(false);
-        Time.timeScale = 0f;
+        optionForTowerBuildingMenu.SetActive(false);
     }
     public void UnPause()
     {
@@ -120,8 +123,10 @@ public class PlayerInputHandler : MonoBehaviour
         hudMenu.SetActive(true);
         pauseMenu.SetActive(false);
         gameDoneMenu.SetActive(false);
+        towerBuildSelectionMenu.SetActive(false);
         Time.timeScale = 1.0f;
     }
+    
     public void GameDone(bool hasWon)
     {
         OnDisable();
@@ -142,5 +147,33 @@ public class PlayerInputHandler : MonoBehaviour
         hudMenu.SetActive(false);
         pauseMenu.SetActive(false);
         gameDoneMenu.SetActive(true);
+        optionForTowerBuildingMenu.SetActive(false);
     }
+    
+    public void OpenTowerSelection()
+    {
+        Time.timeScale = 0f;
+        UnlockCurser();
+        OnDisable();
+        hudMenu.SetActive(false);
+        pauseMenu.SetActive(true);
+        gameDoneMenu.SetActive(false);
+        optionForTowerBuildingMenu.SetActive(false);
+        towerBuildSelectionMenu.GetComponent<TowerBuildingUI>().SetTower(currentPlatform);
+        towerBuildSelectionMenu.SetActive(true);
+    }
+    public bool CheckIfBuildScreenOptionIsActive(){
+        return optionForTowerBuildingMenu;
+    }
+    public void OpenOptionForBuildingScreen(GameObject whichPlatform)
+    {
+        currentPlatform = whichPlatform;
+        optionForTowerBuildingMenu.SetActive(true);
+    }
+    public void CloseOptionForBuildingScreen(GameObject whichPlatform)
+    {
+        optionForTowerBuildingMenu.SetActive(false);
+    }
+    
+
 }
