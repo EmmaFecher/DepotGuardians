@@ -6,7 +6,6 @@ public class SpawningTowersScript : MonoBehaviour
 {
     [SerializeField] PlayerInputHandler input;
     [SerializeField] GameObject playerObject;
-    [SerializeField] float range;
     private bool ifPlayerHasBuildAbility;
     private void Update() 
     {
@@ -23,7 +22,7 @@ public class SpawningTowersScript : MonoBehaviour
     
     bool CheckIfPlayerCanBuild()
     {
-        if (Vector3.Distance(playerObject.transform.position, transform.position) < range)
+        if (Vector3.Distance(playerObject.transform.position, transform.position) < 3)
         {
             return true;
         }
