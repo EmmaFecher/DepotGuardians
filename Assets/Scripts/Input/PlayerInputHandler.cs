@@ -155,7 +155,7 @@ public class PlayerInputHandler : MonoBehaviour
         UnlockCurser();
         OnDisable();
         hudMenu.SetActive(false);
-        pauseMenu.SetActive(true);
+        pauseMenu.SetActive(false);
         gameDoneMenu.SetActive(false);
         optionForTowerBuildingMenu.SetActive(false);
         towerBuildSelectionMenu.SetActive(true);
