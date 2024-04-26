@@ -56,11 +56,8 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "DepotGuardians.sln",
-    // Controls if suggestions should automatically show up when typing trigger characters
+    "dotnet.defaultSolution": "Depot Guardians.sln",
     "editor.suggestOnTriggerCharacters": true,
-
-    // Controls if pressing tab inserts the best suggestion and if tab cycles through other suggestions
     "editor.tabCompletion": "on",
     "dotnet.preferCSharpExtension": true
 }

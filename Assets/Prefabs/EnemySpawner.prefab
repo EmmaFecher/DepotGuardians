@@ -50,6 +50,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4b8ca3b5754178241a2128038fcbc085, type: 2}
   - {fileID: 11400000, guid: 4b8ca3b5754178241a2128038fcbc085, type: 2}
   - {fileID: 11400000, guid: 4b8ca3b5754178241a2128038fcbc085, type: 2}
-  timeBetweenWaves: 4
+  timeBetweenWaves: 3.23
   spawnedEnemies: []
-  input: {fileID: 2310451398769416004, guid: 24cd71fc0c9030245bf261df32af7c75, type: 3}
+  input: {fileID: 0}

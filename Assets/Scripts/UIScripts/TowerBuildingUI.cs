@@ -1,4 +1,7 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TowerBuildingUI : MonoBehaviour
 {
@@ -15,10 +18,14 @@ public class TowerBuildingUI : MonoBehaviour
     public void BuildBasicTower()//button
     {
         input.GetCurrentPlatform();
-        if(Vector3.Distance(towerToBuildAt.transform.position, player.transform.position) < 4)
+        if(towerToBuildAt != null)
         {
-            Instantiate(basicTowerPrefab, towerToBuildAt.transform.position, towerToBuildAt.transform.rotation);
+            if(Vector3.Distance(towerToBuildAt.transform.position, player.transform.position) < 4)
+            {
+                Instantiate(basicTowerPrefab, towerToBuildAt.transform.position, towerToBuildAt.transform.rotation);
+            }
         }
+        
         input.UnPause();
         
     }

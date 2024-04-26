@@ -1,9 +1,12 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SpawningTowersScript : MonoBehaviour
 {
     [SerializeField] PlayerInputHandler input;
     [SerializeField] GameObject playerObject;
+    [SerializeField] float range;
     private bool ifPlayerHasBuildAbility;
     private void Update() 
     {
@@ -19,7 +22,7 @@ public class SpawningTowersScript : MonoBehaviour
     }
     bool CheckIfPlayerCanBuild()
     {
-        if (Vector3.Distance(playerObject.transform.position, transform.position) < 4)
+        if (Vector3.Distance(playerObject.transform.position, transform.position) < range)
         {
             return true;
         }

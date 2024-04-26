@@ -54,7 +54,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isInstantTurnOn: 0
-  speed: 6
+  speed: 9
   turnSpeed: 400
 --- !u!65 &471493719387787209
 BoxCollider:
