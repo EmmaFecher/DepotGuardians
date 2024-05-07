@@ -8,6 +8,7 @@ public class SpawningTowersScript : MonoBehaviour
     [SerializeField] GameObject playerObject;
     [SerializeField] float range;
     private bool ifPlayerHasBuildAbility;
+    public bool hasATower;
     private void Update() 
     {
         ifPlayerHasBuildAbility = CheckIfPlayerCanBuild();
@@ -27,5 +28,13 @@ public class SpawningTowersScript : MonoBehaviour
             return true;
         }
        return false; 
+    }
+    public void SetIfTowerPlaced(bool tIfPlacingFIfRemoving)
+    {
+        hasATower = tIfPlacingFIfRemoving;
+    }
+    public bool GetIfTowerPlaced()
+    {
+        return hasATower;
     }
 }

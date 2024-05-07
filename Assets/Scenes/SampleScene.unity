@@ -1275,7 +1275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b0710ef7454a254585e7d25c50c1bc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Coins: 0
+  Coins: 16
   Health: 50
   input: {fileID: 864419797}
 --- !u!65 &420637829
@@ -2627,7 +2627,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9720be579eeebb8429cb6646b5cd9154, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  basicTowerBuildPrice: 5
   input: {fileID: 864419797}
+  baseScript: {fileID: 420637828}
   basicTowerPrefab: {fileID: 1210181483345988095, guid: 18d02288146ff3b43b9fdcffd674ef97, type: 3}
   player: {fileID: 994026237}
 --- !u!114 &1398956213

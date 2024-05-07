@@ -15,9 +15,9 @@ public class BaseScripts : MonoBehaviour
             input.GameDone(false);
         }
     }
-    public void SetCoins(int amountToAdd)
+    public void SetCoins(int setAmount)
     {
-        Coins += amountToAdd;
+        Coins = setAmount;
     }
     public void SetHealth(int setAmount)
     {
@@ -35,9 +35,17 @@ public class BaseScripts : MonoBehaviour
     {
         Health -= decreaseAmount;
     }
+    public void IncreaseHealth(int increaseAmount)
+    {
+        Health += increaseAmount;
+    }
     public void IncreaseCoins(int increaseAmount)
     {
         Coins += increaseAmount;
+    }
+    public void DecreaseCoins(int decreaseAmount)
+    {
+        Coins -= decreaseAmount;
     }
     private void OnCollisionEnter(Collision other) 
     {
