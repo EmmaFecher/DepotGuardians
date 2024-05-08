@@ -165,7 +165,7 @@ public class PlayerInputHandler : MonoBehaviour
         towerBuildSelectionMenu.GetComponent<TowerBuildingUI>().SetTower(currentPlatform);
     }
     public bool CheckIfBuildScreenOptionIsActive(){
-        return optionForTowerBuildingMenu;
+        return optionForTowerBuildingMenu.activeInHierarchy;
     }
     public void OpenOptionForBuildingScreen(GameObject whichPlatform)
     {

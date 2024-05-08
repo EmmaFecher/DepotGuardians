@@ -9,25 +9,24 @@ public class SpawningTowersScript : MonoBehaviour
     [SerializeField] float range;
     private bool ifPlayerHasBuildAbility;
     public bool hasATower;
-    private void Update() 
+    
+    private void OnTriggerEnter(Collider other) 
     {
-        ifPlayerHasBuildAbility = CheckIfPlayerCanBuild();
-        if(ifPlayerHasBuildAbility && Time.timeScale == 1.0f)
-        {
-            input.OpenOptionForBuildingScreen(gameObject);
-        }
-        else
-        {
-            input.CloseOptionForBuildingScreen(gameObject);
+        if(other.gameObject.CompareTag("Player")){
+            if(hasATower == false)
+            {
+                input.OpenOptionForBuildingScreen(gameObject);
+            }
+            
         }
     }
-    bool CheckIfPlayerCanBuild()
-    {
-        if (Vector3.Distance(playerObject.transform.position, transform.position) < range)
-        {
-            return true;
+    private void OnTriggerExit(Collider other) {
+        if(other.gameObject.CompareTag("Player")){
+            input.CloseOptionForBuildingScreen(gameObject);
         }
-       return false; 
+        if(hasATower){
+            input.CloseOptionForBuildingScreen(gameObject);
+        }
     }
     public void SetIfTowerPlaced(bool tIfPlacingFIfRemoving)
     {
