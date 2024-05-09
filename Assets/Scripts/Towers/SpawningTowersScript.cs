@@ -7,17 +7,26 @@ public class SpawningTowersScript : MonoBehaviour
     [SerializeField] PlayerInputHandler input;
     [SerializeField] GameObject playerObject;
     [SerializeField] float range;
-    private bool ifPlayerHasBuildAbility;
     public bool hasATower;
     
     private void OnTriggerEnter(Collider other) 
     {
-        if(other.gameObject.CompareTag("Player")){
+        if(other.gameObject.CompareTag("Player"))
+        {
             if(hasATower == false)
             {
                 input.OpenOptionForBuildingScreen(gameObject);
             }
-            
+        }
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        if(other.gameObject.CompareTag("Player"))
+        {
+            if(hasATower == false)
+            {
+                input.OpenOptionForBuildingScreen(gameObject);
+            }
         }
     }
     private void OnTriggerExit(Collider other) {

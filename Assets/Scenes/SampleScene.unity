@@ -2671,7 +2671,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9720be579eeebb8429cb6646b5cd9154, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  basicTowerBuildPrice: 5
   input: {fileID: 864419797}
   baseScript: {fileID: 420637828}
   basicTowerPrefab: {fileID: 1210181483345988095, guid: 18d02288146ff3b43b9fdcffd674ef97, type: 3}
@@ -2876,7 +2875,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7815518899492723948, guid: b3bad17c59a98ff45b6db9ab2a028b85, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7815518899492723948, guid: b3bad17c59a98ff45b6db9ab2a028b85, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -2888,15 +2887,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7815518899492723948, guid: b3bad17c59a98ff45b6db9ab2a028b85, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: BuildBasicTower
+      value: BuildTower
       objectReference: {fileID: 0}
     - target: {fileID: 7815518899492723948, guid: b3bad17c59a98ff45b6db9ab2a028b85, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: TowerBuildingUI, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 7815518899492723948, guid: b3bad17c59a98ff45b6db9ab2a028b85, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 1210181483345988095, guid: 18d02288146ff3b43b9fdcffd674ef97, type: 3}
+    - target: {fileID: 7815518899492723948, guid: b3bad17c59a98ff45b6db9ab2a028b85, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
+      value: UnityEngine.GameObject, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

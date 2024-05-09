@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2242374815569708344}
   - component: {fileID: 6106165531124926059}
+  - component: {fileID: -5881169960695298975}
   m_Layer: 0
   m_Name: BasicTower
   m_TagString: Untagged
@@ -55,6 +56,19 @@ MonoBehaviour:
   shootingDelay: 3
   bulletSpeed: 300
   enemiesInRange: []
+--- !u!114 &-5881169960695298975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1210181483345988095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af68f55f884b0734689cef8048dc3cb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  costToBuild: 10
 --- !u!1 &3551161172613200022
 GameObject:
   m_ObjectHideFlags: 0
