@@ -13,7 +13,6 @@ public class BasicDamageDealer : MonoBehaviour
         if(other.gameObject.CompareTag("Enemy"))
         {
             other.gameObject.GetComponent<EnemyHealth>().DecreaseHealth(BulletDamage);
-            Debug.Log("Hit");
             Destroy(gameObject);
         }
     }
