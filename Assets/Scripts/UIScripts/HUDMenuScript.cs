@@ -8,15 +8,24 @@ public class HUDMenuScript : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI CoinsTxt;
     [SerializeField] TextMeshProUGUI HealthTxt;
-    BaseScripts baseScript;
-    private void Awake() 
+    [SerializeField] BaseScripts baseScript;
+    private void Start() 
     {
-        baseScript = GameObject.FindGameObjectWithTag("Base").GetComponent<BaseScripts>();
+        if(GameManager.Instance.SceneIsALevelScene())
+        {
+            baseScript = GameObject.FindGameObjectWithTag("Base").GetComponent<BaseScripts>();
+            CoinsTxt = gameObject.transform.Find("HUDUIImage/CoinsTxt").GetComponent<TextMeshProUGUI>();
+            HealthTxt = gameObject.transform.Find("HUDUIImage/HealthTxt").GetComponent<TextMeshProUGUI>();
+        }
     }
     private void Update() 
     {
-        CoinsTxt.text = "Coins: " + baseScript.GetCoins().ToString();
-        HealthTxt.text = "Health: " + baseScript.GetHealth().ToString();
+        if(GameManager.Instance.SceneIsALevelScene())
+        {
+            baseScript = GameObject.FindGameObjectWithTag("Base").GetComponent<BaseScripts>();
+            CoinsTxt.text = "Coins: " + baseScript.GetCoins().ToString();
+            HealthTxt.text = "Health: " + baseScript.GetHealth().ToString();
+        }
     }
     /*
     reference the txt for coins/health

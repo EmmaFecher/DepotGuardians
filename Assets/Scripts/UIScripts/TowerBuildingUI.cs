@@ -14,7 +14,18 @@ public class TowerBuildingUI : MonoBehaviour
     [SerializeField] GameObject basicTowerPrefab;
     [SerializeField] GameObject player;
     GameObject towerToBuildAt;
-
+    private void Awake() {
+        if(input == null){
+            input = GameObject.FindGameObjectWithTag("InputManager").GetComponent<PlayerInputHandler>();
+        }
+    }
+    private void Update() {
+        if(GameManager.Instance.SceneIsALevelScene())
+        {
+            baseScript = GameObject.FindGameObjectWithTag("Base").GetComponent<BaseScripts>();
+            player = GameObject.FindGameObjectWithTag("Player");
+        }
+    }
     public void CloseScreen()//button
     {
         input.UnPause();

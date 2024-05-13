@@ -7,11 +7,15 @@ public class BaseScripts : MonoBehaviour
     [SerializeField] private int Coins;
     [SerializeField] private int Health;
     [SerializeField] private PlayerInputHandler input;
+    private void Awake() {
+        if(input == null){
+            input = GameObject.FindGameObjectWithTag("InputManager").GetComponent<PlayerInputHandler>();
+        }
+    }
     private void Update() 
     {
         if(Health <= 0)
         {
-            Debug.Log("Base dead, LOOOSE");
             input.GameDone(false);
         }
     }

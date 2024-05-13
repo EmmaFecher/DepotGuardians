@@ -12,6 +12,9 @@ public class EnemySpawner : MonoBehaviour
 
     void Start()
     {
+        if(input == null){
+            input = GameObject.FindGameObjectWithTag("InputManager").GetComponent<PlayerInputHandler>();
+        }
         StartCoroutine(SpawnEnemyWaves());
     }
     IEnumerator SpawnEnemyWaves()

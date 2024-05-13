@@ -8,7 +8,11 @@ public class SpawningTowersScript : MonoBehaviour
     [SerializeField] GameObject playerObject;
     [SerializeField] float range;
     public bool hasATower;
-    
+    private void Awake() {
+        if(input == null){
+            input = GameObject.FindGameObjectWithTag("InputManager").GetComponent<PlayerInputHandler>();
+        }
+    }
     private void OnTriggerEnter(Collider other) 
     {
         if(other.gameObject.CompareTag("Player"))
@@ -31,10 +35,10 @@ public class SpawningTowersScript : MonoBehaviour
     }
     private void OnTriggerExit(Collider other) {
         if(other.gameObject.CompareTag("Player")){
-            input.CloseOptionForBuildingScreen(gameObject);
+            input.CloseOptionForBuildingScreen();
         }
         if(hasATower){
-            input.CloseOptionForBuildingScreen(gameObject);
+            input.CloseOptionForBuildingScreen();
         }
     }
     public void SetIfTowerPlaced(bool tIfPlacingFIfRemoving)

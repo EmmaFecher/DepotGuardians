@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -18,14 +19,17 @@ public class PlayerInputHandler : MonoBehaviour
     [SerializeField] private string sprint = "Sprint";
     [SerializeField] private string pause = "Pause";
         
-    [Header("Menu stuff")]
+    [Header("Menu holder stuff")]
+    [SerializeField] TextMeshProUGUI winTxt;
+    [SerializeField] TextMeshProUGUI looseTxt;
     [SerializeField] GameObject pauseMenu;
     [SerializeField] GameObject hudMenu;
     [SerializeField] GameObject gameDoneMenu;
     [SerializeField] GameObject optionForTowerBuildingMenu;
     [SerializeField] GameObject towerBuildSelectionMenu;
-    [SerializeField] TextMeshProUGUI winTxt;
-    [SerializeField] TextMeshProUGUI looseTxt;
+
+
+
     GameObject currentPlatform;
 
     private InputAction moveAction;
@@ -52,12 +56,51 @@ public class PlayerInputHandler : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        FindActionsmaps();
+        RegisterInputActions();
+    }
+    private void Start() 
+    {
+        FindActionsmaps();
+        RegisterInputActions();
+        GetCanvases();
+    }
+    private void Update() 
+    {
+        bool isALevel = GameManager.Instance.SceneIsALevelScene();
+        if(isALevel)
+        {
+            // OnEnable();
+        }
+        else
+        {
+            // OnDisable();
+            pauseMenu.GetComponent<Canvas>().enabled = false;
+            hudMenu.GetComponent<Canvas>().enabled = false;
+            gameDoneMenu.GetComponent<Canvas>().enabled = false;
+            optionForTowerBuildingMenu.GetComponent<Canvas>().enabled = false;
+            towerBuildSelectionMenu.GetComponent<Canvas>().enabled = false;
+            winTxt.gameObject.SetActive(false);
+            looseTxt.gameObject.SetActive(false);
+        }
+    }
+    private void GetCanvases()
+    {
+        pauseMenu = GameObject.Find("PauseCanvas");
+        hudMenu = GameObject.Find("HUDCanvas");
+        gameDoneMenu = GameObject.Find("GameDoneCanvas");
+        optionForTowerBuildingMenu = GameObject.Find("OptionToBuildTowerCanvas");
+        towerBuildSelectionMenu = GameObject.Find("TowerChoosingCanvas");
+        winTxt = gameDoneMenu.transform.Find("GameDoneMenuImage/GameDoneWinTxt").GetComponent<TextMeshProUGUI>();
+        looseTxt = gameDoneMenu.transform.Find("GameDoneMenuImage/GameDoneLooseTxt").GetComponent<TextMeshProUGUI>();
+    }
+    private void FindActionsmaps()
+    {
         moveAction = playerControls.FindActionMap(actionMapName).FindAction(move);
         lookAction = playerControls.FindActionMap(actionMapName).FindAction(look);
         jumpAction = playerControls.FindActionMap(actionMapName).FindAction(jump);
         sprintAction = playerControls.FindActionMap(actionMapName).FindAction(sprint);
         pauseAction = playerControls.FindActionMap(actionMapName).FindAction(pause);
-        RegisterInputActions();
     }
     private void RegisterInputActions()
     {
@@ -110,19 +153,19 @@ public class PlayerInputHandler : MonoBehaviour
         Time.timeScale = 0f;
         UnlockCurser();
         OnDisable();
-        hudMenu.SetActive(false);
-        pauseMenu.SetActive(true);
-        gameDoneMenu.SetActive(false);
-        optionForTowerBuildingMenu.SetActive(false);
+        hudMenu.GetComponent<Canvas>().enabled = false;
+        pauseMenu.GetComponent<Canvas>().enabled = true;
+        gameDoneMenu.GetComponent<Canvas>().enabled = false;
+        optionForTowerBuildingMenu.GetComponent<Canvas>().enabled = false;
     }
     public void UnPause()
     {
         LockCurser();
         OnEnable();
-        hudMenu.SetActive(true);
-        pauseMenu.SetActive(false);
-        gameDoneMenu.SetActive(false);
-        towerBuildSelectionMenu.SetActive(false);
+        hudMenu.GetComponent<Canvas>().enabled = true;
+        pauseMenu.GetComponent<Canvas>().enabled = false;
+        gameDoneMenu.GetComponent<Canvas>().enabled = false;
+        towerBuildSelectionMenu.GetComponent<Canvas>().enabled = false;
         Time.timeScale = 1.0f;
     }
     
@@ -143,10 +186,10 @@ public class PlayerInputHandler : MonoBehaviour
             winTxt.gameObject.SetActive(false);
         }
 
-        hudMenu.SetActive(false);
-        pauseMenu.SetActive(false);
-        gameDoneMenu.SetActive(true);
-        optionForTowerBuildingMenu.SetActive(false);
+        hudMenu.GetComponent<Canvas>().enabled = false;
+        pauseMenu.GetComponent<Canvas>().enabled = false;
+        gameDoneMenu.GetComponent<Canvas>().enabled = true;
+        optionForTowerBuildingMenu.GetComponent<Canvas>().enabled = false;
     }
     
     public void OpenTowerSelection()
@@ -154,11 +197,11 @@ public class PlayerInputHandler : MonoBehaviour
         Time.timeScale = 0f;
         UnlockCurser();
         OnDisable();
-        hudMenu.SetActive(false);
-        pauseMenu.SetActive(false);
-        gameDoneMenu.SetActive(false);
-        optionForTowerBuildingMenu.SetActive(false);
-        towerBuildSelectionMenu.SetActive(true);
+        hudMenu.GetComponent<Canvas>().enabled = false;
+        pauseMenu.GetComponent<Canvas>().enabled = false;
+        gameDoneMenu.GetComponent<Canvas>().enabled = false;
+        optionForTowerBuildingMenu.GetComponent<Canvas>().enabled = false;
+        towerBuildSelectionMenu.GetComponent<Canvas>().enabled = true;
     }
     public void GetCurrentPlatform()
     {
@@ -170,12 +213,10 @@ public class PlayerInputHandler : MonoBehaviour
     public void OpenOptionForBuildingScreen(GameObject whichPlatform)
     {
         currentPlatform = whichPlatform;
-        optionForTowerBuildingMenu.SetActive(true);
+        optionForTowerBuildingMenu.GetComponent<Canvas>().enabled = true;
     }
-    public void CloseOptionForBuildingScreen(GameObject whichPlatform)
+    public void CloseOptionForBuildingScreen()
     {
-        optionForTowerBuildingMenu.SetActive(false);
+        optionForTowerBuildingMenu.GetComponent<Canvas>().enabled = false;
     }
-    
-
 }

@@ -55,6 +55,9 @@ public class FPSPlayerController : MonoBehaviour
 
     private void Awake()
     {
+        if(input == null){
+            input = GameObject.FindGameObjectWithTag("InputManager").GetComponent<PlayerInputHandler>();
+        }
         //start of level
         input.UnPause();
         input.LockCurser();
